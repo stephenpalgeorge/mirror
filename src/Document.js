@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 class Document {
   constructor() {
     this.content = '';
-    this.context = null;
+    this.page = null;
     this.defaultConfig = {
       lang: 'en',
       title: 'Mirror Page',
