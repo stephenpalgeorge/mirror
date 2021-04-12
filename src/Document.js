@@ -2,7 +2,8 @@ const puppeteer = require('puppeteer');
 
 class Document {
   constructor() {
-    this.context = '';
+    this.content = '';
+    this.context = null;
     this.defaultConfig = {
       lang: 'en',
       title: 'Mirror Page',
@@ -12,8 +13,8 @@ class Document {
   /**
    * RENDER
    * ----------
-   * @param {*} config 
-   * @param {*} html 
+   * @param {object} config 
+   * @param {string} html 
    * 
    * The render function creates a page with some HTML contents.
    * If the `html` param has a value, it is preferred to the default
@@ -32,7 +33,8 @@ class Document {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
       await page.setContent(DOM);
-      return this.context = await page.content();
+      this.content = await page.content();
+      this.page = page;
     }
     catch (err) {
       console.error(err);
@@ -42,7 +44,7 @@ class Document {
   /**
    * TEMPLATE
    * ----------
-   * @param {Object} config - a set of options that could be applied to the html.
+   * @param {object} config - a set of options that could be applied to the html.
    * 
    * The template function returns a string of HTML that creates a basic document
    * that can then be interacted with. If no config is passed, the defaults defined
@@ -60,7 +62,9 @@ class Document {
           <title>${config.title}</title>
         </head>
 
-        <body></body>
+        <body>
+          <h1>${config.title}</h1>
+        </body>
       </html>
     `;
   }
